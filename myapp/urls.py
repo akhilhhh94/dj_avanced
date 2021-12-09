@@ -15,11 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.conf.urls import url
-from .view import home, redirectExample
+from django.conf.urls import include, url, include
+from view import home, redirectExample
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', home),
-    url(r'^redirect/$', redirectExample, name='redirect')
+    url(r'^redirect/$', redirectExample, name='redirect'),
+    path('test-model/', include('blog.urls'))
 ]
