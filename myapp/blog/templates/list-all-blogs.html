@@ -1,0 +1,6 @@
+<h1>Fet all blogs</h1>
+<ul>
+    {% for onj in object_list %}
+    <li><a href='/test-model/list/{{onj.id}}'>{{ onj.title }}</a></li>
+    {%  endfor %}
+</ul>

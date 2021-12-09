@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import page1
+from .views import list_all,list_one
 
 urlpatterns = [
-    path('page1/', page1),
+    path('list-all/', list_all, name='list-all'),
+    path('list/<int:id>/', list_one, name='list-a-single'),
 ]
