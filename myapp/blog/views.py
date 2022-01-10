@@ -1,8 +1,10 @@
-from django.http.response import HttpResponse
+from django.http.response import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.http import HttpResponse, request
 from django.shortcuts import get_object_or_404
+from django.contrib import messages
 from .models import PostModel
+from .forms import PostForms
 
 # Create your views here.
 def list_all(request):
@@ -18,5 +20,25 @@ def list_one(request, id=None):
     template = 'get-single.html'
     context_dict = {
       'data': qs
+    }
+    return render(request, template, context_dict)
+
+
+def add_one(request, id=None):
+    if request.POST:
+        form = PostForms(request.POST)
+        if form.is_valid():
+            post_data = form.save(commit=False)
+            #form.save() is allow to save by considering the forign key relation
+            #form.save(commit=False) will return a cleanned model object (save seporately)
+            post_data.save()
+            messages.success(request, 'Addedd successfully')
+            return HttpResponseRedirect('/test-model/list/{id}/'.format(id=post_data.id))
+    else:
+        form = PostForms()
+    # We can avaid if else and pu like form = PostForms(request.POST or None)
+    template = 'add-single.html'
+    context_dict = {
+        "form": form
     }
     return render(request, template, context_dict)
