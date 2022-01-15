@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.http.response import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.http import HttpResponse, request
@@ -38,6 +39,40 @@ def add_one(request, id=None):
         form = PostForms()
     # We can avaid if else and pu like form = PostForms(request.POST or None)
     template = 'add-single.html'
+    context_dict = {
+        "form": form
+    }
+    return render(request, template, context_dict)
+
+
+def update_one(request, id=None):
+    qs = get_object_or_404(PostModel, id=id)
+    form = PostForms(request.POST or None, instance=qs)
+    if request.POST:
+        if form.is_valid():
+            post_data = form.save(commit=False)
+            #form.save() is allow to save by considering the forign key relation
+            #form.save(commit=False) will return a cleanned model object (save seporately)
+            post_data.save()
+            messages.success(request, 'Updateds successfully')
+            return HttpResponseRedirect('/test-model/list/{id}/'.format(id=post_data.id))
+    # We can avaid if else and pu like form = PostForms(request.POST or None)
+    template = 'update-single.html'
+    context_dict = {
+        "form": form
+    }
+    return render(request, template, context_dict)
+
+
+def delete_one(request, id=None):
+    qs = get_object_or_404(PostModel, id=id)
+    form = PostForms(request.POST or None, instance=qs)
+    if request.POST:
+        qs.delete()
+        messages.success(request, 'Deleted successfully')
+        return HttpResponseRedirect('/test-model/list-all/')
+    # We can avaid if else and pu like form = PostForms(request.POST or None)
+    template = 'delete-single.html'
     context_dict = {
         "form": form
     }

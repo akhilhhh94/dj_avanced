@@ -1,0 +1,10 @@
+<h1> delete - {{ form.instance.title }}</h1>
+
+<form method="post" action=".">
+    Are you sure?
+    <input type="submit" value="yes">
+    {% csrf_token %}
+    <hr/>
+    <a href="/test-model/list-all">No</a>
+
+</form>

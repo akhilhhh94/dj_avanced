@@ -1,6 +1,15 @@
 <h1>Fet all blogs</h1>
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<a href="/test-model/add/">+Add</a>
 <ul>
     {% for onj in object_list %}
-    <li><a href='/test-model/list/{{onj.id}}'>{{ onj.title }}</a></li>
+    <li><a href='/test-model/list/{{onj.id}}'>{{ onj.title }}</a>  -- <a href='/test-model/update/{{onj.id}}'>Update</a> - -- <a href='/test-model/delete/{{onj.id}}'>Delete</a></li>
     {%  endfor %}
 </ul>
