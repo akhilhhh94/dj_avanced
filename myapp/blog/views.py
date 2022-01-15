@@ -4,15 +4,21 @@ from django.shortcuts import render
 from django.http import HttpResponse, request
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
+from django.db.models import Q
 from .models import PostModel
 from .forms import PostForms
 
 # Create your views here.
 def list_all(request):
+    query = request.GET.get("q", None)
     qs = PostModel.objects.all()
+    if query is not None:
+        # Complex lookups with Q objects
+        qs = qs.filter(Q(title__icontains=query) | Q(content__icontains=query))
     template = 'list-all-blogs.html'
     context_dict = {
-        'object_list': qs
+        'object_list': qs,
+        'query': query
     }
     return render(request, template, context_dict)
 
