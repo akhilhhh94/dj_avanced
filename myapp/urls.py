@@ -22,5 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', home),
     url(r'^redirect/$', redirectExample, name='redirect'),
-    path('test-model/', include('blog.urls'))
+    path('test-model/', include('blog.urls')),
+    path('todo/', include('todovalidators.urls'))
 ]
