@@ -1,9 +1,12 @@
 from django.db import models
-from django.utils.encoding import smart_text
+from django.conf import settings
 from django.db.models.signals import pre_save
+from django.utils.encoding import smart_text
 from django.utils.translation import gettext_lazy as _
-from .validator import validate_even
+
 from .baseModel import BaseModel
+from .validator import validate_even
+
 
 
 class TotoQuerySet(models.QuerySet):
@@ -34,6 +37,15 @@ class todo(BaseModel):
         choices=PublishCoice.choices,
         default=PublishCoice.PUBLISHED,
     )
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    '''
+    IMPORTANT
+    -Get the value like this -
+    from django.contrib.auth.models import User
+    abc = User.objects.first()
+    abc.todo_set.all()
+
+    '''
     # here todo.objects.published() otherwise todo.blbl.published()
     objects = TodoManager()
 
