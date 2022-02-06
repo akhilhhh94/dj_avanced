@@ -2,7 +2,7 @@ from datetime import timedelta, datetime, date
 
 from django.db import models
 from django.db.models.signals import pre_save, post_save
-from django.utils.encoding import smart_text
+from django.utils.encoding import force_str as smart_text
 from django.utils import timezone 
 from django.utils.text import slugify
 from django.utils.timesince import timesince

@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.db.models.signals import pre_save
-from django.utils.encoding import smart_text
+from django.utils.encoding import force_str as smart_text
 from django.utils.translation import gettext_lazy as _
 
 from .baseModel import BaseModel
