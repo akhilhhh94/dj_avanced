@@ -3,11 +3,16 @@ from django.conf import settings
 from django.db.models.signals import pre_save
 from django.utils.encoding import force_str as smart_text
 from django.utils.translation import gettext_lazy as _
+from django.core.exceptions import ValidationError
 
 from .baseModel import BaseModel
 from .validator import validate_even
 
 
+def validate_title(title):
+    if "#" in title:
+        raise ValidationError("Please avoid #")
+    return title
 
 class TotoQuerySet(models.QuerySet):
     def published(self):
@@ -31,6 +36,7 @@ class todo(BaseModel):
         DRAFT = 'DR', _('Draft')
 
     title = models.CharField(
+        validators=[validate_title],
         max_length=240)
     publish_status = models.CharField(
         max_length=2,
