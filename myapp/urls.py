@@ -23,5 +23,6 @@ urlpatterns = [
     path('home/', home),
     re_path(r'^redirect/$', redirectExample, name='redirect'),
     path('test-model/', include('blog.urls')),
-    path('todo/', include('todovalidators.urls'))
+    path('todo/', include('todovalidators.urls')),
+    path('sample', include('classbased.urls'))
 ]
