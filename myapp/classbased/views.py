@@ -1,7 +1,7 @@
 from django.http import HttpResponse
-from django.views.generic import ListView, DetailView, View
+from django.views.generic import ListView, DetailView, View, RedirectView
 from django.views.generic.list import MultipleObjectMixin
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 import datetime
 from .models import ClassSample
 from .mixin import TitleMixin
@@ -53,3 +53,12 @@ class MultipleObjectListingExample(MultipleObjectMixin, View):
         context = self.get_context_data()
         template_name = "class_test_list.html"
         return render(request, template_name=template_name, context=context)
+
+
+class MyRedirectView(RedirectView):
+    pattern_name = 'my-text'
+
+    def get_redirect_url(self, *args, **kwargs):
+        data = get_object_or_404(ClassSample, pk=kwargs['pk'])
+        # data.updateCounter Or something like
+        return super().get_redirect_url(*args, **kwargs)
