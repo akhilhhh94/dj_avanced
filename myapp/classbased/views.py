@@ -32,6 +32,12 @@ class TestListView(ListView):
 class TestDetailed(DetailView):
     model = ClassSample
 
+    # Just override the core get_context_data() to print it // no need it actually
+    def get_context_data(self, **kwargs):
+        contect = super(TestDetailed, self).get_context_data(**kwargs)
+        print(contect)
+        return contect
+
 
 class ProxyTestListView(TitleMixin, ListView):
     title = "this title"
