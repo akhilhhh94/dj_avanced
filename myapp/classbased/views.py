@@ -1,9 +1,12 @@
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, View, RedirectView
 from django.views.generic.list import MultipleObjectMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 import datetime
-from .models import ClassSample
+from .models import ClassSample, ProxyClassSample
 from .mixin import TitleMixin
 
 
@@ -38,10 +41,18 @@ class TestDetailed(DetailView):
         print(contect)
         return contect
 
+# login requred decorator is here with mixin example
+class ProxyTestListView(LoginRequiredMixin, TitleMixin, ListView):
+    login_url = '/index/'
+    redirect_field_name = 'index'
+    title = "this titles"
 
-class ProxyTestListView(TitleMixin, ListView):
-    title = "this title"
-    model = ClassSample
+    # one methord of login requred decorator is here
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(ProxyTestListView, self).dispatch(*args, **kwargs)
+
+    model = ProxyClassSample
     template_name = "class_test_list.html"
 
 
