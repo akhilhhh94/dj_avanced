@@ -1,13 +1,16 @@
-from django.http import HttpResponse
-from django.views.generic import ListView, DetailView, View, RedirectView
-from django.views.generic.list import MultipleObjectMixin
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404
 import datetime
-from .models import ClassSample, ProxyClassSample
+
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
+from django.utils.decorators import method_decorator
+from django.views.generic import ListView, DetailView, View, RedirectView, CreateView
+from django.views.generic.list import MultipleObjectMixin
+
 from .mixin import TitleMixin
+from .models import ClassSample, ProxyClassSample
+from .forms import ClassAndUserTestForm
 
 
 def getDateTime(request):
@@ -73,3 +76,19 @@ class MyRedirectView(RedirectView):
         data = get_object_or_404(ClassSample, pk=kwargs['pk'])
         # data.updateCounter Or something like
         return super().get_redirect_url(*args, **kwargs)
+
+
+class UserWithFormSample(LoginRequiredMixin, CreateView):
+    form_class = ClassAndUserTestForm
+    template_name = 'user-with-form.html'
+    # Or put absolute URL in the model
+    success_url = "/akhil"
+
+    def form_valid(self, form):
+        # form.cleaned_data
+        temp = form.save(commit=False)
+        temp.user = self.request.user
+        temp.save()
+        return super().form_valid(form)
+
+
