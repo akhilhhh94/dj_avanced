@@ -7,6 +7,7 @@ from django.shortcuts import render, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, View, RedirectView, CreateView
 from django.views.generic.list import MultipleObjectMixin
+from django.views.generic.edit import DeleteView, UpdateView
 
 from .mixin import TitleMixin
 from .models import ClassSample, ProxyClassSample
@@ -92,3 +93,13 @@ class UserWithFormSample(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
+class TestUpdateView(LoginRequiredMixin, UpdateView):
+    success_url = "/akhil"
+    form_class = ClassAndUserTestForm
+    template_name = "update.html"
+    model = ClassSample
+
+class TestDeleteView(LoginRequiredMixin, DeleteView):
+    success_url = "/akhil"
+    model = ClassSample
+    template_name = "deelete.html"
