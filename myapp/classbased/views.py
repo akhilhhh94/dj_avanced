@@ -1,5 +1,6 @@
 import datetime
 
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
@@ -44,6 +45,7 @@ class TestDetailed(DetailView):
         contect = super(TestDetailed, self).get_context_data(**kwargs)
         print(contect)
         return contect
+
 
 # login requred decorator is here with mixin example
 class ProxyTestListView(LoginRequiredMixin, TitleMixin, ListView):
@@ -93,13 +95,16 @@ class UserWithFormSample(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class TestUpdateView(LoginRequiredMixin, UpdateView):
-    success_url = "/akhil"
+class TestUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    success_url = "/sample/tests"
     form_class = ClassAndUserTestForm
     template_name = "update.html"
+    success_message = "%(name)s was updated successfully"
     model = ClassSample
 
-class TestDeleteView(LoginRequiredMixin, DeleteView):
-    success_url = "/akhil"
+
+class TestDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+    success_url = "/sample/tests"
     model = ClassSample
+    success_message = "%(name)s was created successfully"
     template_name = "deelete.html"
