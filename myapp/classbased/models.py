@@ -19,3 +19,8 @@ class UserSample(models.Model):
     name = models.CharField(max_length=250)
     desc = models.CharField(max_length=500)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
+
+
+class AnotherSample(models.Model):
+    name = models.CharField(max_length=250)
+    desc = models.CharField(max_length=500)

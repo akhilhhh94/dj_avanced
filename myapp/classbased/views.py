@@ -12,7 +12,7 @@ from django.views.generic.edit import DeleteView, UpdateView
 
 from .mixin import TitleMixin
 from .models import ClassSample, ProxyClassSample
-from .forms import ClassAndUserTestForm
+from .forms import ClassAndUserTestForm, FormTestForm
 
 
 def getDateTime(request):
@@ -108,3 +108,10 @@ class TestDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = ClassSample
     success_message = "%(name)s was created successfully"
     template_name = "deelete.html"
+
+
+class FormTest(CreateView):
+    form_class = FormTestForm
+    template_name = 'form-sample.html'
+    success_url = "/sample/sample-form-test"
+

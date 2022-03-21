@@ -2,10 +2,11 @@ from django.urls import path
 from django.views.generic import TemplateView, RedirectView
 
 from .views import (
-    getDateTime, TestListView, TestDetailed, ProxyTestListView, MultipleObjectListingExample, MyRedirectView, UserWithFormSample, TestDeleteView, TestUpdateView
+    getDateTime, TestListView, TestDetailed, ProxyTestListView, MultipleObjectListingExample, MyRedirectView, UserWithFormSample, TestDeleteView, TestUpdateView, FormTest
 )
 
 urlpatterns = [
+    path('/sample-form-test', FormTest.as_view()),
     path('/proxy-tests', ProxyTestListView.as_view()),
     path('/form-use-test', UserWithFormSample.as_view()),
     path('/multi-tests', MultipleObjectListingExample.as_view()),

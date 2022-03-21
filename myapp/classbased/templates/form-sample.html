@@ -1,0 +1,19 @@
+<h1>Add Form</h1>
+
+<form method="POST" action="/sample/sample-form-test">
+    {% csrf_token %}
+     {% comment %}  {{ form.as_p }}{% endcomment %}
+    <label for="{{ form.name.id_for_label }}">Name</label>
+    {{ form.name }}
+    {% if form.name.errors %}
+        <ol>
+        {% for error in form.name.errors %}
+            <li><strong>{{ error|escape }}</strong></li>
+        {% endfor %}
+        </ol>
+    {% endif %}
+    <label for="{{ form.desc.id_for_label }}">desc</label>
+    {{ form.desc }}
+
+    <input type="submit" value="Create" />
+</form>
