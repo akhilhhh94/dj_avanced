@@ -20,6 +20,7 @@ from view import home, redirectExample
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('user', include('customAuth.urls')),
     path('home/', home),
     re_path(r'^redirect/$', redirectExample, name='redirect'),
     path('test-model/', include('blog.urls')),
